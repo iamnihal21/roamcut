@@ -1,0 +1,54 @@
+{
+  "id": "metro_flow",
+  "name": "Metro Flow",
+  "category": "City",
+  "color": "#6C5CE7",
+  "description": "Smooth city montage with beat cuts.",
+  "maxClips": 8,
+  "scene_pack": {
+    "lut": "city_contrast.cube",
+    "transitions": [
+      "glitch",
+      "slideleft"
+    ],
+    "overlays": [
+      "light_leak_01.png"
+    ],
+    "sharpness": 1.1,
+    "vignette": 0.5
+  },
+  "story_intent": {
+    "slots": [
+      {
+        "type": "wide",
+        "duration": 1
+      },
+      {
+        "type": "action",
+        "duration": 2
+      },
+      {
+        "type": "detail",
+        "duration": 2
+      },
+      {
+        "type": "action",
+        "duration": 2
+      },
+      {
+        "type": "wide",
+        "duration": 3
+      }
+    ],
+    "text_overlay": {
+      "position": "center",
+      "font": "template_sans"
+    }
+  },
+  "output_pace": {
+    "bpm": 140,
+    "beat_markers": [],
+    "target_duration": 15,
+    "cut_style": "on_beat"
+  }
+}

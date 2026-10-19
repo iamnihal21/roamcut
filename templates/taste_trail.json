@@ -1,0 +1,47 @@
+{
+  "id": "taste_trail",
+  "name": "Taste Trail",
+  "category": "Food",
+  "color": "#E17055",
+  "description": "Saturated warm LUT and close-crop focus.",
+  "maxClips": 10,
+  "scene_pack": {
+    "lut": "food_warm_high.cube",
+    "transitions": [
+      "dissolve"
+    ],
+    "overlays": [],
+    "sharpness": 1.1,
+    "vignette": 0.3
+  },
+  "story_intent": {
+    "slots": [
+      {
+        "type": "detail",
+        "duration": 2
+      },
+      {
+        "type": "detail",
+        "duration": 3
+      },
+      {
+        "type": "wide",
+        "duration": 2
+      },
+      {
+        "type": "detail",
+        "duration": 2
+      }
+    ],
+    "text_overlay": {
+      "position": "bottom",
+      "font": "template_serif"
+    }
+  },
+  "output_pace": {
+    "bpm": 110,
+    "beat_markers": [],
+    "target_duration": 15,
+    "cut_style": "on_beat"
+  }
+}

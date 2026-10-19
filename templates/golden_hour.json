@@ -1,0 +1,33 @@
+{
+  "id": "golden_hour",
+  "name": "Golden Hour",
+  "category": "Beach",
+  "color": "#E17055",
+  "description": "Warm LUT, lens flare, slow dissolves.",
+  "maxClips": 8,
+  "scene_pack": {
+    "lut": "golden_hour.cube",
+    "transitions": ["dissolve", "fadeblack"],
+    "overlays": ["lens_flare_01.png"],
+    "sharpness": 1.0,
+    "vignette": 0.6
+  },
+  "story_intent": {
+    "slots": [
+      { "type": "wide", "duration": 3 },
+      { "type": "detail", "duration": 2 },
+      { "type": "action", "duration": 2 },
+      { "type": "reflection", "duration": 3 }
+    ],
+    "text_overlay": {
+      "position": "bottom",
+      "font": "template_serif"
+    }
+  },
+  "output_pace": {
+    "bpm": 120,
+    "beat_markers": [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0],
+    "target_duration": 15,
+    "cut_style": "on_beat"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "island_vibes",
+  "name": "Island Vibes",
+  "category": "Beach",
+  "color": "#00B894",
+  "description": "Bright tropical colours and smooth transitions.",
+  "maxClips": 10,
+  "scene_pack": {
+    "lut": "beach_warm.cube",
+    "transitions": [
+      "dissolve"
+    ],
+    "overlays": [
+      "lens_flare_01.png"
+    ],
+    "sharpness": 1,
+    "vignette": 0.6
+  },
+  "story_intent": {
+    "slots": [
+      {
+        "type": "wide",
+        "duration": 3
+      },
+      {
+        "type": "detail",
+        "duration": 2
+      },
+      {
+        "type": "action",
+        "duration": 2
+      },
+      {
+        "type": "reflection",
+        "duration": 3
+      }
+    ],
+    "text_overlay": {
+      "position": "bottom",
+      "font": "template_serif"
+    }
+  },
+  "output_pace": {
+    "bpm": 120,
+    "beat_markers": [],
+    "target_duration": 15,
+    "cut_style": "on_beat"
+  }
+}

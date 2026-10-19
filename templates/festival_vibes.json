@@ -1,0 +1,48 @@
+{
+  "id": "festival_vibes",
+  "name": "Festival Vibes",
+  "category": "Local Culture",
+  "color": "#E84393",
+  "description": "Vibrant LUT and rhythmic local beat map.",
+  "maxClips": 10,
+  "scene_pack": {
+    "lut": "culture_vibrant.cube",
+    "transitions": [
+      "dissolve",
+      "fadeblack"
+    ],
+    "overlays": [],
+    "sharpness": 1,
+    "vignette": 0.5
+  },
+  "story_intent": {
+    "slots": [
+      {
+        "type": "wide",
+        "duration": 2
+      },
+      {
+        "type": "action",
+        "duration": 3
+      },
+      {
+        "type": "detail",
+        "duration": 3
+      },
+      {
+        "type": "reflection",
+        "duration": 2
+      }
+    ],
+    "text_overlay": {
+      "position": "bottom",
+      "font": "template_serif"
+    }
+  },
+  "output_pace": {
+    "bpm": 105,
+    "beat_markers": [],
+    "target_duration": 15,
+    "cut_style": "on_beat"
+  }
+}

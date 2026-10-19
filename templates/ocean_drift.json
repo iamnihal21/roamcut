@@ -1,0 +1,49 @@
+{
+  "id": "ocean_drift",
+  "name": "Ocean Drift",
+  "category": "Beach",
+  "color": "#0984E3",
+  "description": "Wave-synced pacing and cool tones.",
+  "maxClips": 6,
+  "scene_pack": {
+    "lut": "beach_warm.cube",
+    "transitions": [
+      "dissolve"
+    ],
+    "overlays": [
+      "lens_flare_01.png"
+    ],
+    "sharpness": 1,
+    "vignette": 0.6
+  },
+  "story_intent": {
+    "slots": [
+      {
+        "type": "wide",
+        "duration": 3
+      },
+      {
+        "type": "detail",
+        "duration": 2
+      },
+      {
+        "type": "action",
+        "duration": 2
+      },
+      {
+        "type": "reflection",
+        "duration": 3
+      }
+    ],
+    "text_overlay": {
+      "position": "bottom",
+      "font": "template_serif"
+    }
+  },
+  "output_pace": {
+    "bpm": 120,
+    "beat_markers": [],
+    "target_duration": 15,
+    "cut_style": "on_beat"
+  }
+}

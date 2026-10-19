@@ -1,0 +1,62 @@
+import * as FileSystem from 'expo-file-system/legacy';
+import { Template } from '../../../types/Template';
+
+export type FFmpegProgressCallback = (progress: number) => void;
+
+export interface ProcessOptions {
+  template: Template;
+  clips: string[];
+  intensity: number;
+  mustUse: string[];
+  mustAvoid: string[];
+  onProgress?: FFmpegProgressCallback;
+}
+
+/**
+ * MOCK ENGINE — SOW Section 20 abstraction layer.
+ *
+ * Same public interface as the real FFmpeg implementation, but does no
+ * transcoding. Copies the first eligible clip to a new cache path and
+ * simulates progress so the export screen's UI behaves identically.
+ *
+ * When a real engine lands, only this file changes.
+ */
+export async function processReel(options: ProcessOptions): Promise<string> {
+  const { onProgress, clips, mustAvoid } = options;
+
+  const cacheDir = FileSystem.cacheDirectory;
+  if (!cacheDir) throw new Error('cacheDirectory undefined.');
+
+  // Respect the same clip-selection rule as the real engine
+  let activeClips = clips.filter((c) => !mustAvoid.includes(c));
+  if (activeClips.length === 0) activeClips = clips;
+  if (activeClips.length === 0) throw new Error('No clips provided to processReel.');
+
+  const outputPath = `${cacheDir}roamcut_${Date.now()}.mp4`;
+  const source = activeClips[0].replace('file://', '');
+
+  console.log('[ffmpeg-mock] processReel()', {
+    template: options.template?.name,
+    clips: activeClips.length,
+    outputPath,
+  });
+
+  // Simulate ~3s of "processing" so the progress bar in app/export/[id].tsx
+  // animates the same way it will with a real engine.
+  await new Promise<void>((resolve) => {
+    const totalSteps = 20;
+    let step = 0;
+    const tick = setInterval(() => {
+      step += 1;
+      onProgress?.(Math.min(0.99, step / totalSteps));
+      if (step >= totalSteps) {
+        clearInterval(tick);
+        resolve();
+      }
+    }, 150);
+  });
+
+  await FileSystem.copyAsync({ from: source, to: outputPath });
+  onProgress?.(1);
+  return outputPath;
+}

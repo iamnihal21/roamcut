@@ -1,0 +1,48 @@
+{
+  "id": "cloud_walker",
+  "name": "Cloud Walker",
+  "category": "Mountain",
+  "color": "#74B9FF",
+  "description": "Cool-tone LUT and altitude overlays.",
+  "maxClips": 6,
+  "scene_pack": {
+    "lut": "mountain_cool.cube",
+    "transitions": [
+      "dissolve",
+      "slideleft"
+    ],
+    "overlays": [],
+    "sharpness": 1.2,
+    "vignette": 0.4
+  },
+  "story_intent": {
+    "slots": [
+      {
+        "type": "wide",
+        "duration": 2
+      },
+      {
+        "type": "action",
+        "duration": 3
+      },
+      {
+        "type": "reflection",
+        "duration": 4
+      },
+      {
+        "type": "detail",
+        "duration": 2
+      }
+    ],
+    "text_overlay": {
+      "position": "top",
+      "font": "template_sans"
+    }
+  },
+  "output_pace": {
+    "bpm": 90,
+    "beat_markers": [],
+    "target_duration": 15,
+    "cut_style": "between_beats"
+  }
+}

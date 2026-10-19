@@ -1,0 +1,49 @@
+{
+  "id": "open_road",
+  "name": "Open Road",
+  "category": "Road Trip",
+  "color": "#0984E3",
+  "description": "Cinematic LUT and letterbox bars.",
+  "maxClips": 12,
+  "scene_pack": {
+    "lut": "road_cinematic.cube",
+    "transitions": [
+      "slideleft"
+    ],
+    "overlays": [
+      "letterbox.png"
+    ],
+    "sharpness": 1,
+    "vignette": 0.4
+  },
+  "story_intent": {
+    "slots": [
+      {
+        "type": "wide",
+        "duration": 3
+      },
+      {
+        "type": "action",
+        "duration": 2
+      },
+      {
+        "type": "wide",
+        "duration": 3
+      },
+      {
+        "type": "reflection",
+        "duration": 2
+      }
+    ],
+    "text_overlay": {
+      "position": "top",
+      "font": "template_sans"
+    }
+  },
+  "output_pace": {
+    "bpm": 130,
+    "beat_markers": [],
+    "target_duration": 15,
+    "cut_style": "on_beat"
+  }
+}

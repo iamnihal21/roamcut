@@ -1,0 +1,43 @@
+{
+  "id": "ancient_stories",
+  "name": "Ancient Stories",
+  "category": "Heritage",
+  "color": "#B2BEC3",
+  "description": "Desaturated warm LUT and film grain.",
+  "maxClips": 6,
+  "scene_pack": {
+    "lut": "heritage_warm.cube",
+    "transitions": [
+      "fadeblack"
+    ],
+    "overlays": [],
+    "sharpness": 1,
+    "vignette": 0.7
+  },
+  "story_intent": {
+    "slots": [
+      {
+        "type": "wide",
+        "duration": 4
+      },
+      {
+        "type": "detail",
+        "duration": 3
+      },
+      {
+        "type": "reflection",
+        "duration": 4
+      }
+    ],
+    "text_overlay": {
+      "position": "bottom",
+      "font": "template_serif"
+    }
+  },
+  "output_pace": {
+    "bpm": 80,
+    "beat_markers": [],
+    "target_duration": 15,
+    "cut_style": "freeform"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "highway_dreams",
+  "name": "Highway Dreams",
+  "category": "Road Trip",
+  "color": "#2D3436",
+  "description": "Speed ramp montage and distance counter.",
+  "maxClips": 10,
+  "scene_pack": {
+    "lut": "road_cinematic.cube",
+    "transitions": [
+      "slideleft"
+    ],
+    "overlays": [
+      "letterbox.png"
+    ],
+    "sharpness": 1,
+    "vignette": 0.4
+  },
+  "story_intent": {
+    "slots": [
+      {
+        "type": "wide",
+        "duration": 3
+      },
+      {
+        "type": "action",
+        "duration": 2
+      },
+      {
+        "type": "wide",
+        "duration": 3
+      },
+      {
+        "type": "reflection",
+        "duration": 2
+      }
+    ],
+    "text_overlay": {
+      "position": "top",
+      "font": "template_sans"
+    }
+  },
+  "output_pace": {
+    "bpm": 130,
+    "beat_markers": [],
+    "target_duration": 15,
+    "cut_style": "on_beat"
+  }
+}

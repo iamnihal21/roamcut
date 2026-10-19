@@ -1,0 +1,43 @@
+{
+  "id": "jungle_book",
+  "name": "Jungle Book",
+  "category": "Forest",
+  "color": "#00B894",
+  "description": "Green-boost LUT and organic transitions.",
+  "maxClips": 8,
+  "scene_pack": {
+    "lut": "forest_green.cube",
+    "transitions": [
+      "dissolve"
+    ],
+    "overlays": [],
+    "sharpness": 1,
+    "vignette": 0.5
+  },
+  "story_intent": {
+    "slots": [
+      {
+        "type": "wide",
+        "duration": 3
+      },
+      {
+        "type": "detail",
+        "duration": 3
+      },
+      {
+        "type": "reflection",
+        "duration": 3
+      }
+    ],
+    "text_overlay": {
+      "position": "bottom",
+      "font": "template_sans"
+    }
+  },
+  "output_pace": {
+    "bpm": 100,
+    "beat_markers": [],
+    "target_duration": 15,
+    "cut_style": "between_beats"
+  }
+}
