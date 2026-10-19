@@ -22,6 +22,8 @@ import Animated, {
   withTiming,
   Easing as REasing,
 } from 'react-native-reanimated';
+// FIXED IMPORT HERE:
+import * as MediaLibrary from 'expo-media-library/legacy';
 
 import { useAppStore } from '../../src/store/useAppStore';
 import { templates } from '../../constants/templates';
@@ -29,6 +31,7 @@ import { colors, spacing, radius } from '../../constants/theme';
 import { CheckIcon, ShareIcon, CompassIcon } from '../../src/components/icons';
 import { Confetti } from '../../src/components/Confetti';
 import { useTranslation } from '../../src/hooks/useTranslation';
+import { processReel } from '../../src/services/ffmpeg';
 
 const FACTS = [
   { emoji: '🌅', text: 'Iceland has no mosquitoes at all — perfect for outdoor shoots.', gradient: ['#F39C12', '#E17055'] as const },
@@ -79,6 +82,7 @@ export default function Export() {
   const [done, setDone] = useState(false);
   const [factIndex, setFactIndex] = useState(0);
   const [showBeforeAfter, setShowBeforeAfter] = useState(false);
+  const [statusText, setStatusText] = useState('Initializing...');
 
   const [platform, setPlatform] = useState<PlatformId>('native');
   const [resolution, setResolution] = useState<Resolution>(isPro ? '1080p' : '720p');
@@ -140,39 +144,76 @@ export default function Export() {
     return true;
   };
 
-  // SIMULATED EXPORT PROCESS (No FFmpeg)
+  // THE REAL FFMPEG PROCESSING EFFECT
   useEffect(() => {
     if (done) return;
     
+    let isMounted = true;
+
     if (!checkReelLimit()) return;
 
-    const timer = setInterval(() => {
-      setProgress((p) => {
-        if (p >= 1) {
-          clearInterval(timer);
-          return 1;
-        }
-        return Math.min(1, p + 0.04);
-      });
-    }, 150);
-
-    return () => clearInterval(timer);
-  }, [done]);
-
-  useEffect(() => {
-    if (progress >= 1 && !done) {
-      setDone(true);
-      addReel({
-        id: Date.now().toString(),
-        templateId: id as string,
-        createdAt: Date.now(),
-        videoUris: selectedVideos,
-        intensity,
-        mustUse,
-        mustAvoid,
-      });
+    if (!template || selectedVideos.length === 0) {
+      Alert.alert("Debug Error", "Missing template or videos");
+      return;
     }
-  }, [progress, done]);
+
+    const runExport = async () => {
+      try {
+        setStatusText('Processing...');
+        const resultUri = await processReel({
+          template: template,
+          clips: selectedVideos,
+          intensity,
+          mustUse,
+          mustAvoid,
+          onProgress: (realProgress) => {
+            if (isMounted) {
+              setProgress(realProgress);
+              setStatusText(`Processing... ${Math.round(realProgress * 100)}%`);
+            }
+          }
+        });
+
+        if (isMounted) {
+          setProgress(1);
+          setStatusText('Done!');
+          setDone(true);
+          
+          addReel({
+            id: Date.now().toString(),
+            templateId: id as string,
+            createdAt: Date.now(),
+            videoUris: selectedVideos,
+            intensity,
+            mustUse,
+            mustAvoid,
+          });
+
+          // Save to Gallery using the legacy API
+          try {
+            const { status } = await MediaLibrary.requestPermissionsAsync();
+            if (status === 'granted') {
+              await MediaLibrary.createAssetAsync(resultUri);
+              Alert.alert("Success", "Video saved to gallery!");
+            } else {
+              Alert.alert("Permission Needed", "Please allow access to save the video to your gallery.");
+            }
+          } catch (e) {
+            console.log("Gallery save failed", e);
+          }
+        }
+      } catch (error: any) {
+        console.error("FFMPEG CATCH BLOCK", error);
+        Alert.alert('Export Failed', error.message || String(error));
+        setStatusText(`Error: ${error.message}`);
+        if (isMounted) setProgress(0);
+      }
+    };
+
+    runExport();
+
+    return () => { isMounted = false; };
+  }, []);
 
   const totalDuration = useMemo(
     () => selectedVideos.reduce((sum, uri) => sum + (clipDurations[uri] ?? 0), 0),
@@ -210,17 +251,11 @@ export default function Export() {
   const handleShare = () => {
     const templateHashtag = `#RoamCut${template?.name?.replace(/\s+/g, '') ?? 'Travel'}`;
     let message = '';
-    if (language === 'hi') {
-      message = `RoamCut से बनाया गया — ${localizedName} ${templateHashtag} #RoamCut`;
-    } else if (language === 'ja') {
-      message = `RoamCutで作成 — ${localizedName} ${templateHashtag} #RoamCut`;
-    } else if (language === 'de') {
-      message = `Erstellt mit RoamCut — ${localizedName} ${templateHashtag} #RoamCut`;
-    } else if (language === 'ar') {
-      message = `تم الإنشاء بواسطة RoamCut — ${localizedName} ${templateHashtag} #RoamCut`;
-    } else {
-      message = `Made with RoamCut — ${localizedName} ${templateHashtag} #RoamCut`;
-    }
+    if (language === 'hi') message = `RoamCut से बनाया गया — ${localizedName} ${templateHashtag} #RoamCut`;
+    else if (language === 'ja') message = `RoamCutで作成 — ${localizedName} ${templateHashtag} #RoamCut`;
+    else if (language === 'de') message = `Erstellt mit RoamCut — ${localizedName} ${templateHashtag} #RoamCut`;
+    else if (language === 'ar') message = `تم الإنشاء بواسطة RoamCut — ${localizedName} ${templateHashtag} #RoamCut`;
+    else message = `Made with RoamCut — ${localizedName} ${templateHashtag} #RoamCut`;
     Share.share({ message });
   };
 
@@ -232,7 +267,7 @@ export default function Export() {
     return (
       <View style={styles.container}>
         <Text style={styles.processingTitle}>{t.export.creating}</Text>
-        <Text style={styles.processingSubtitle}>{localizedName}</Text>
+        <Text style={styles.processingSubtitle}>{statusText}</Text>
 
         <RNAnimated.View style={[styles.postcardWrap, { opacity: pulse }]}>
           <LinearGradient colors={currentFact.gradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.postcard}>
