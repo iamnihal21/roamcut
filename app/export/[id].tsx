@@ -147,7 +147,7 @@ export default function Export() {
   // THE REAL FFMPEG PROCESSING EFFECT
   useEffect(() => {
     if (done) return;
-    
+
     let isMounted = true;
 
     if (!checkReelLimit()) return;
@@ -178,7 +178,7 @@ export default function Export() {
           setProgress(1);
           setStatusText('Done!');
           setDone(true);
-          
+
           addReel({
             id: Date.now().toString(),
             templateId: id as string,
@@ -203,8 +203,8 @@ export default function Export() {
           }
         }
       } catch (error: any) {
-        console.error("FFMPEG CATCH BLOCK", error);
-        Alert.alert('Export Failed', error.message || String(error));
+        // The service already triggers the Alert. We just log and reset here.
+        console.error("Export UI caught error:", error);
         setStatusText(`Error: ${error.message}`);
         if (isMounted) setProgress(0);
       }
