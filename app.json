@@ -2,21 +2,51 @@
   "expo": {
     "name": "RoamCut",
     "slug": "roamcut",
-    "icon": "./assets/icon.png",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "roamcut",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    
     "splash": {
-      "image": "./assets/icon.png",
+      "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#1A1A2E"
     },
+    
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.speedai.roamcut"
+    },
+    
     "android": {
       "package": "com.speedai.roamcut",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
+        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#1A1A2E"
-      }
+      },
+      "permissions": [
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
     },
-    "ios": {
-      "bundleIdentifier": "com.speedai.roamcut"
+    
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#E17055"
+        }
+      ],
+      "expo-media-library"
+    ],
+    "experiments": {
+      "typedRoutes": true
     }
   }
 }

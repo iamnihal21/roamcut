@@ -521,11 +521,6 @@ export async function processReel(options: ProcessOptions): Promise<string> {
 
     logListener = addLogListener((message) => console.log(`FFMPEG: ${message}`));
 
-    console.log('=== ROAMCUT EXPORT PLAN ===');
-    console.log('Clip input durations:', plans.map((plan) => plan.inputDuration));
-    console.log('Clip output durations:', plans.map((plan) => plan.outputDuration));
-    console.log('Estimated final duration:', totalDuration);
-
     let clipHasAudio = options.clipHasAudio;
     if (!clipHasAudio) {
       const detected: boolean[] = [];
@@ -548,9 +543,7 @@ export async function processReel(options: ProcessOptions): Promise<string> {
     const args = buildArguments(options, outputPath, plans, clipHasAudio, stabilizationFiles);
     const command = serializeArguments(args);
 
-    console.log('=== STARTING ROAMCUT FFMPEG EXPORT ===');
-    console.log(command);
-
+    
     if (options.onProgress) {
       progressListener = addProgressListener((timeMs) => {
         const fraction = Math.max(0, Math.min(0.99, timeMs / (totalDuration * 1000)));
