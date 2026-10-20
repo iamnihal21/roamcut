@@ -1,6 +1,4 @@
-import {
-  View, Text, ScrollView, TouchableOpacity, StyleSheet, Switch, Alert,
-} from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Switch } from 'react-native';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,12 +8,14 @@ import { useTranslation } from '../../src/hooks/useTranslation';
 import { LANGUAGES } from '../../constants/languages';
 import { registerForNotificationsAsync, triggerTestNotification } from '../../src/services/notifications';
 import { CrownIcon } from '../../src/components/icons';
+import { useCustomAlert } from '../../src/components/ui/CustomAlert';
 
 export default function Profile() {
   const router = useRouter();
   const { t, language } = useTranslation();
   const { reels, isPro, notificationsEnabled, setNotificationsEnabled, setPro } = useAppStore();
   const [reducedMotion, setReducedMotion] = useState(false);
+  const { showAlert } = useCustomAlert();
 
   const usageMB = Math.min(900, reels.length * 45 + 30);
   const currentLanguage = LANGUAGES.find(l => l.code === language)?.label || 'English';
@@ -23,6 +23,9 @@ export default function Profile() {
   const handleNotificationToggle = async (value: boolean) => {
     if (value) {
       const granted = await registerForNotificationsAsync();
+      if (!granted) {
+        showAlert({ title: 'Permission Required', message: 'Please enable notifications in your device settings.' });
+      }
       setNotificationsEnabled(granted);
     } else {
       setNotificationsEnabled(false);
@@ -97,7 +100,7 @@ export default function Profile() {
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>{t.profile.about}</Text>
-        <TouchableOpacity style={styles.row} onPress={() => Alert.alert('RoamCut', 'Version 1.0.0')}>
+        <TouchableOpacity style={styles.row} onPress={() => showAlert({ title: 'RoamCut', message: 'Version 1.0.0' })}>
           <Text style={styles.rowLabel}>{t.profile.version}</Text>
           <Text style={styles.rowValue}>1.0.0</Text>
         </TouchableOpacity>
@@ -105,7 +108,7 @@ export default function Profile() {
           <Text style={styles.rowLabel}>Tips & What's New</Text>
           <Text style={styles.rowChevron}>›</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.row} onPress={() => Alert.alert('RoamCut', 'Thanks for using RoamCut!')}>
+        <TouchableOpacity style={styles.row} onPress={() => showAlert({ title: 'RoamCut', message: 'Thanks for using RoamCut!' })}>
           <Text style={styles.rowLabel}>{t.profile.rateApp}</Text>
           <Text style={styles.rowChevron}>›</Text>
         </TouchableOpacity>
@@ -113,7 +116,7 @@ export default function Profile() {
 
       <Text style={styles.footer}>{t.profile.footer}</Text>
 
-      <TouchableOpacity style={styles.devBtn} onPress={() => { setPro(!isPro); useAppStore.setState({ reels: [] }); Alert.alert('Dev Mode', `Switched to ${!isPro ? 'PRO' : 'FREE'}`); }}>
+      <TouchableOpacity style={styles.devBtn} onPress={() => { setPro(!isPro); useAppStore.setState({ reels: [] }); showAlert({ title: 'Dev Mode', message: `Switched to ${!isPro ? 'PRO' : 'FREE'}` }); }}>
         <Text style={{ color: colors.muted, fontSize: 12 }}>[DEV ONLY] Toggle {isPro ? 'Free' : 'Pro'} Plan</Text>
       </TouchableOpacity>
     </ScrollView>

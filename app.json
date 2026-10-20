@@ -2,33 +2,21 @@
   "expo": {
     "name": "RoamCut",
     "slug": "roamcut",
-    "version": "1.0.0",
-    "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "roamcut",
-    "userInterfaceStyle": "dark",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": false,
-      "bundleIdentifier": "com.speedai.roamcut"
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1A1A2E"
     },
     "android": {
       "package": "com.speedai.roamcut",
-      "permissions": [
-        "android.permission.POST_NOTIFICATIONS",
-        "android.permission.READ_EXTERNAL_STORAGE",
-        "android.permission.WRITE_EXTERNAL_STORAGE"
-      ]
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#1A1A2E"
+      }
     },
-    "plugins": [
-      "expo-router",
-      "expo-font",
-      "expo-notifications",
-      "expo-media-library",
-      "munim-ffmpeg"
-    ],
-    "experiments": {
-      "typedRoutes": true
+    "ios": {
+      "bundleIdentifier": "com.speedai.roamcut"
     }
   }
 }

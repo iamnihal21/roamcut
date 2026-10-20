@@ -1,5 +1,4 @@
 import * as FileSystem from 'expo-file-system/legacy';
-import { Alert } from 'react-native';
 import type { Template } from '../../../types/Template';
 import {
   executeAsync,
@@ -503,7 +502,6 @@ async function analyzeStabilization(plan: ClipPlan, index: number, cacheDir: str
     throw new Error('E10 stabilization failed during its analysis pass. Original error: ' + (error?.message ?? String(error)));
   }
 }
-
 export async function processReel(options: ProcessOptions): Promise<string> {
   let progressListener: any;
   let logListener: any;
@@ -571,8 +569,7 @@ export async function processReel(options: ProcessOptions): Promise<string> {
 
   } catch (error: any) {
     console.error('ROAMCUT EXPORT FAILED:', error);
-    Alert.alert('Export Failed', error?.message || String(error));
-    throw error;
+    throw error; // UI will handle the custom alert
   } finally {
     progressListener?.remove();
     logListener?.remove();

@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-} from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { BlurView } from 'expo-blur';
@@ -13,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { colors, spacing, radius, glows } from '../constants/theme';
 import { useAppStore } from '../src/store/useAppStore';
 import { GlowButton } from '../src/components/ui/GlowButton';
+import { useCustomAlert } from '../src/components/ui/CustomAlert';
 
 const FEATURES = [
   { label: 'Templates', free: '5', pro: 'All 20' },
@@ -45,12 +39,13 @@ export default function Paywall() {
   const setPro = useAppStore((s) => s.setPro);
   const [region, setRegion] = useState<'US' | 'IN'>('US');
   const [isPurchasing, setIsPurchasing] = useState(false);
+  const { showAlert } = useCustomAlert();
 
   const activate = () => {
-    Alert.alert(
-      'Confirm Subscription',
-      'This is a sandbox environment. No real money will be charged.',
-      [
+    showAlert({
+      title: 'Confirm Subscription',
+      message: 'This is a sandbox environment. No real money will be charged.',
+      buttons: [
         { text: 'Cancel', style: 'cancel' },
         {
           text: 'Subscribe',
@@ -59,20 +54,20 @@ export default function Paywall() {
             setTimeout(() => {
               setIsPurchasing(false);
               setPro(true);
-              Alert.alert('Success!', 'Welcome to RoamCut Pro. All features unlocked.');
+              showAlert({ title: 'Success!', message: 'Welcome to RoamCut Pro. All features unlocked.' });
               router.back();
             }, 1500);
           },
         },
       ]
-    );
+    });
   };
 
   const choose = (plan: string) => {
     if (plan === 'free trial' || plan === 'Monthly' || plan === 'Annual') {
       activate();
     } else {
-      Alert.alert('Prototype build', `In the real app this would start the ${plan} subscription via StoreKit / Play Billing.`);
+      showAlert({ title: 'Prototype build', message: `In the real app this would start the ${plan} subscription.` });
     }
   };
 
@@ -146,7 +141,7 @@ export default function Paywall() {
         />
       </View>
 
-      <TouchableOpacity style={styles.restoreButton} onPress={() => Alert.alert('Restore', 'No purchases found for this account.')} disabled={isPurchasing}>
+      <TouchableOpacity style={styles.restoreButton} onPress={() => showAlert({ title: 'Restore', message: 'No purchases found for this account.' })} disabled={isPurchasing}>
         <Text style={styles.restoreButtonText}>Restore purchases</Text>
       </TouchableOpacity>
 

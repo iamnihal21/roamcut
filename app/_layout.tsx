@@ -6,8 +6,8 @@ import Constants from 'expo-constants';
 
 import { useAppStore } from '../src/store/useAppStore';
 import { colors } from '../constants/theme';
+import { CustomAlertProvider } from '../src/components/ui/CustomAlert';
 
-// Safely load Notifications only if NOT in Expo Go, to prevent the ExpoTopicSubscriptionModule crash
 let Notifications: any = null;
 if (Constants.appOwnership !== 'expo') {
   Notifications = require('expo-notifications');
@@ -61,31 +61,33 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack
-      screenOptions={{
-        headerStyle: { backgroundColor: colors.background },
-        headerTintColor: colors.text,
-        contentStyle: { backgroundColor: colors.background },
-        animation: 'slide_from_right',
-        animationDuration: 600,
-      }}
-    >
-      <Stack.Screen name="(tabs)" options={{ headerShown: false, animation: 'fade' }} />
-      <Stack.Screen name="onboarding" options={{ headerShown: false, animation: 'fade' }} />
-      <Stack.Screen name="template/[id]" options={{ title: 'Template' }} />
-      <Stack.Screen name="editor/[id]" options={{ title: 'Editor' }} />
-      <Stack.Screen name="export/[id]" options={{ title: 'Export' }} />
-      <Stack.Screen name="pack-store" options={{ title: 'Template Packs' }} />
-      <Stack.Screen name="tips" options={{ title: 'Tips & Tricks' }} />
-      <Stack.Screen name="language" options={{ title: 'Language' }} />
-      <Stack.Screen 
-        name="paywall" 
-        options={{ 
-          presentation: 'modal', 
-          title: 'RoamCut Pro',
-          animation: 'slide_from_bottom' 
-        }} 
-      />
-    </Stack>
+    <CustomAlertProvider>
+      <Stack
+        screenOptions={{
+          headerStyle: { backgroundColor: colors.background },
+          headerTintColor: colors.text,
+          contentStyle: { backgroundColor: colors.background },
+          animation: 'slide_from_right',
+          animationDuration: 600,
+        }}
+      >
+        <Stack.Screen name="(tabs)" options={{ headerShown: false, animation: 'fade' }} />
+        <Stack.Screen name="onboarding" options={{ headerShown: false, animation: 'fade' }} />
+        <Stack.Screen name="template/[id]" options={{ title: 'Template' }} />
+        <Stack.Screen name="editor/[id]" options={{ title: 'Editor' }} />
+        <Stack.Screen name="export/[id]" options={{ title: 'Export' }} />
+        <Stack.Screen name="pack-store" options={{ title: 'Template Packs' }} />
+        <Stack.Screen name="tips" options={{ title: 'Tips & Tricks' }} />
+        <Stack.Screen name="language" options={{ title: 'Language' }} />
+        <Stack.Screen 
+          name="paywall" 
+          options={{ 
+            presentation: 'modal', 
+            title: 'RoamCut Pro',
+            animation: 'slide_from_bottom' 
+          }} 
+        />
+      </Stack>
+    </CustomAlertProvider>
   );
 }
